@@ -1,12 +1,12 @@
-#devgaganin
+#gk
 
 from datetime import timedelta
 import pytz
 import datetime, time
-from devgagan import app
+from bot import app
 from config import OWNER_ID
-from devgagan.core.func import get_seconds
-from devgagan.core.mongo import plans_db  
+from bot.core.func import get_seconds
+from bot.core.mongo import plans_db  
 from pyrogram import filters 
 
 

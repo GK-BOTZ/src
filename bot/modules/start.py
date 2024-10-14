@@ -1,7 +1,7 @@
 from pyrogram import filters
-from devgagan import app
-from devgagan.core import script
-from devgagan.core.func import subscribe
+from bot import app
+from bot.core import script
+from bot.core.func import subscribe
 from config import OWNER_ID
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -9,7 +9,7 @@ from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardBu
 
 buttons = InlineKeyboardMarkup(
     [
-        [InlineKeyboardButton("Join Channel", url="https://t.me/devgaganin")],
+        [InlineKeyboardButton("Join Channel", url="https://t.me/gk")],
         [InlineKeyboardButton("Buy Premium", url="https://t.me/kingofpatal")]
     ]
 )

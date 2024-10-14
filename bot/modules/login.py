@@ -1,14 +1,14 @@
-#devggn
+
 
 
 from pyrogram import filters, Client
-from devgagan import app
+from bot import app
 from pyromod import listen
 import random
 import os
 import string
-from devgagan.core.mongo import db
-from devgagan.core.func import subscribe, chk_user
+from bot.core.mongo import db
+from bot.core.func import subscribe, chk_user
 from config import API_ID as api_id, API_HASH as api_hash
 from pyrogram.errors import (
     ApiIdInvalid,

@@ -1,10 +1,10 @@
-#devggn
+
 
 import asyncio
 from pyrogram import filters
 from config import OWNER_ID
-from devgagan import app
-from devgagan.core.mongo.users_db import get_users
+from bot import app
+from bot.core.mongo.users_db import get_users
 
 async def send_msg(user_id, message):
     try:

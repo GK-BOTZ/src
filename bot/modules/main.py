@@ -1,13 +1,13 @@
-#devggn
+
 
 import time
 import asyncio
 from pyrogram import filters, Client
-from devgagan import app, gnbot
+from bot import app, gnbot
 from config import API_ID, API_HASH
-from devgagan.core.get_func import get_msg
-from devgagan.core.func import *
-from devgagan.core.mongo import db
+from bot.core.get_func import get_msg
+from bot.core.func import *
+from bot.core.mongo import db
 from pyrogram.errors import FloodWait
 
 

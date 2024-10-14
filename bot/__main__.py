@@ -1,11 +1,11 @@
-#devggn
+
 
 import asyncio
 import importlib
 from pyrogram import idle
-from devgagan.modules import ALL_MODULES
+from bot.modules import ALL_MODULES
 from aiojobs import create_scheduler
-from devgagan.core.mongo.plans_db import check_and_remove_expired_users
+from bot.core.mongo.plans_db import check_and_remove_expired_users
 
 loop = asyncio.get_event_loop()
 
@@ -17,7 +17,7 @@ async def schedule_expiry_check():
 
 async def devggn_boot():
     for all_module in ALL_MODULES:
-        importlib.import_module("devgagan.modules." + all_module)
+        importlib.import_module("bot.modules." + all_module)
     print("»»»» ʙᴏᴛ ᴅᴇᴘʟᴏʏ sᴜᴄᴄᴇssғᴜʟʟʏ ✨ 🎉")
 
     # Start the background task for checking expired users

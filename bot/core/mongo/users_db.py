@@ -1,4 +1,4 @@
-#devggn
+
 
 from config import MONGO_DB
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
