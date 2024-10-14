@@ -1,4 +1,4 @@
-https://www.dl.dropboxusercontent.com/scl/fi/ge9wkots40hq2fdt64z8a/ggnpyro.zip?rlkey=9ovewxnj083a78pgm9rgceg8u&st=x45ccejq&dl=0
+pyrogram==2.0.83
 tgcrypto
 pyromod
 opencv-python-headless
