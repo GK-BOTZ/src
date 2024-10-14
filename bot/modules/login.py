@@ -2,13 +2,13 @@
 
 
 from pyrogram import filters, Client
-from devgagan import app
+frombot import app
 from pyromod import listen
 import random
 import os
 import string
-from devgagan.core.mongo import db
-from devgagan.core.func import subscribe, chk_user
+frombot.core.mongo import db
+frombot.core.func import subscribe, chk_user
 from config import API_ID as api_id, API_HASH as api_hash
 from pyrogram.errors import (
     ApiIdInvalid,

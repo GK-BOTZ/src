@@ -58,11 +58,11 @@ sudo apt install ffmpeg git python3-pip
 git clone your_repo_link
 cd you_repo_name
 pip3 install -r requirements.txt
-python3 -m devgagan
+python3 -mbot
 ```
 
-- if you want bot to be running in background then enter `screen -S gagan` before `python3 -m devgagan` 
-- after `python3 -m devgagan`, click `ctrl+A`, `ctrl+D`
+- if you want bot to be running in background then enter `screen -S gagan` before `python3 -mbot` 
+- after `python3 -mbot`, click `ctrl+A`, `ctrl+D`
 - if you want to stop bot, then enter `screen -r gagan` and to kill screen enter `screen -S gagan -X quit`.
 
 

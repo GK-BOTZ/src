@@ -1,7 +1,7 @@
 from pyrogram import filters
-from devgagan import app
-from devgagan.core import script
-from devgagan.core.func import subscribe
+frombot import app
+frombot.core import script
+frombot.core.func import subscribe
 from config import OWNER_ID
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 

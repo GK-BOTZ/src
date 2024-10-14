@@ -5,8 +5,8 @@ import math
 import time , re
 from pyrogram import enums
 from config import CHANNEL_ID, OWNER_ID 
-from devgagan.core import script
-from devgagan.core.mongo.plans_db import premium_users
+frombot.core import script
+frombot.core.mongo.plans_db import premium_users
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import cv2
 from pyrogram.errors import FloodWait, InviteHashInvalid, InviteHashExpired, UserAlreadyParticipant, UserNotParticipant
