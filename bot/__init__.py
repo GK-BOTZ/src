@@ -16,16 +16,15 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-sex = TelegramClient('sexrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+sex = TelegramClient('test', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 
 app = Client(
     ":RestrictBot:",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
-    workers=10,
+    workers=1000,
     sleep_threshold=20,
-    max_concurrent_transmissions=5
 )
 
 
