@@ -17,7 +17,7 @@ async def schedule_expiry_check():
 
 async def devggn_boot():
     for all_module in ALL_MODULES:
-        importlib.import_module("devgagan.modules." + all_module)
+        importlib.import_module("bot.modules." + all_module)
     print("»»»» ʙᴏᴛ ᴅᴇᴘʟᴏʏ sᴜᴄᴄᴇssғᴜʟʟʏ ✨ 🎉")
 
     # Start the background task for checking expired users

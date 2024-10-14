@@ -1,5 +1,3 @@
-#devgaganin
-
 
 import math
 import time , re
