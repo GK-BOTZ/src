@@ -5,7 +5,7 @@ import importlib
 from pyrogram import idle
 from devgagan.modules import ALL_MODULES
 from aiojobs import create_scheduler
-from devgagan.core.mongo.plans_db import check_and_remove_expired_users
+from bot.core.mongo.plans_db import check_and_remove_expired_users
 
 loop = asyncio.get_event_loop()
 
