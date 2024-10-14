@@ -1,10 +1,10 @@
 #devggn
 
-frombot import app
+from bot import app
 from pyrogram import filters
 from config import OWNER_ID
-frombot.core.mongo.users_db import get_users, add_user, get_user
-frombot.core.mongo.plans_db import premium_users
+from bot.core.mongo.users_db import get_users, add_user, get_user
+from bot.core.mongo.plans_db import premium_users
 
 
 

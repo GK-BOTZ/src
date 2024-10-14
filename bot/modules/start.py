@@ -1,7 +1,7 @@
 from pyrogram import filters
-frombot import app
-frombot.core import script
-frombot.core.func import subscribe
+from bot import app
+from bot.core import script
+from bot.core.func import subscribe
 from config import OWNER_ID
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 

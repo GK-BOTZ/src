@@ -5,14 +5,14 @@ import time
 import os
 import subprocess
 import requests
-frombot import app
-frombot import sex as gf
+from bot import app
+from bot import sex as gf
 import pymongo
 from pyrogram import filters
 from pyrogram.errors import ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid, PeerIdInvalid
 from pyrogram.enums import MessageMediaType
-frombot.core.func import progress_bar, video_metadata, screenshot
-frombot.core.mongo import db
+from bot.core.func import progress_bar, video_metadata, screenshot
+from bot.core.mongo import db
 from pyrogram.types import Message
 from config import MONGO_DB as MONGODB_CONNECTION_STRING, LOG_GROUP
 import cv2

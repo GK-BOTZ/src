@@ -3,11 +3,11 @@
 import time
 import asyncio
 from pyrogram import filters, Client
-frombot import app
+from bot import app
 from config import API_ID, API_HASH
-frombot.core.get_func import get_msg
-frombot.core.func import *
-frombot.core.mongo import db
+from bot.core.get_func import get_msg
+from bot.core.func import *
+from bot.core.mongo import db
 from pyrogram.errors import FloodWait
 
 

@@ -3,10 +3,10 @@
 from datetime import timedelta
 import pytz
 import datetime, time
-frombot import app
+from bot import app
 from config import OWNER_ID
-frombot.core.func import get_seconds
-frombot.core.mongo import plans_db  
+from bot.core.func import get_seconds
+from bot.core.mongo import plans_db  
 from pyrogram import filters 
 
 

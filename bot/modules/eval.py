@@ -7,7 +7,7 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import OWNER_ID
-frombot import app
+from bot import app
 
 
 

@@ -3,7 +3,7 @@
 import asyncio
 import importlib
 from pyrogram import idle
-frombot.modules import ALL_MODULES
+from bot.modules import ALL_MODULES
 from aiojobs import create_scheduler
 from bot.core.mongo.plans_db import check_and_remove_expired_users
 
