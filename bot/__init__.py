@@ -4,17 +4,22 @@
 import asyncio
 import logging
 from pyromod import listen
-from pyrogram import Client
+from pyrogram import Client, utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN
 from telethon.sync import TelegramClient
 
-
 loop = asyncio.get_event_loop()
 
+pyroutils.MIN_CHAT_ID = -999999999999
+pyroutils.MIN_CHANNEL_ID = -100999999999999
+
 logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
-    level=logging.INFO,
+    level=logging.ERROR,  # Global level for root logger
+    format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
 )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)  # You control
 
 sex = TelegramClient('test', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 
