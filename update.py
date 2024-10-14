@@ -3,7 +3,7 @@ import os
 import subprocess
 
 # tired of redeploying :(
-UPSTREAM_REPO = os.environ.get('UPSTREAM_REPO', 'https://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@github.com/ gk-BOTZ/src')
+UPSTREAM_REPO = os.environ.get('UPSTREAM_REPO', 'https://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@github.com/GK-BOTZ/src')
 UPSTREAM_BRANCH = os.environ.get('UPSTREAM_BRANCH', 'v4')
 try:
     if len(UPSTREAM_REPO) == 0:
