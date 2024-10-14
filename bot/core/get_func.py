@@ -57,10 +57,10 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                    gk = await app.send_message(sender, msg.text.markdown)
                     if msg.pinned_message:
                         try:
-                            awaitgk.pin(both_sides=True)
+                            await gk.pin(both_sides=True)
                         except Exception as e:
-                            awaitgk.pin()
-                    awaitgk.copy(LOG_GROUP)                  
+                            await gk.pin()
+                    await gk.copy(LOG_GROUP)                  
                     await edit.delete()
                     return
             if not msg.media:
@@ -70,10 +70,10 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                    gk = await app.send_message(sender, msg.text.markdown)
                     if msg.pinned_message:
                         try:
-                            awaitgk.pin(both_sides=True)
+                            await gk.pin(both_sides=True)
                         except Exception as e:
-                            awaitgk.pin()
-                    awaitgk.copy(LOG_GROUP)
+                            await gk.pin()
+                    await gk.copy(LOG_GROUP)
                     await edit.delete()
                     return
             
@@ -124,10 +124,10 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                    gk = await app.send_video(chat_id=sender, video=file, caption=caption, height=height, width=width, duration=duration, thumb=None, progress=progress_bar, progress_args=('**UPLOADING:**\n', edit, time.time())) 
                     if msg.pinned_message:
                         try:
-                            awaitgk.pin(both_sides=True)
+                            await gk.pin(both_sides=True)
                         except Exception as e:
-                            awaitgk.pin()
-                    awaitgk.copy(LOG_GROUP)
+                            await gk.pin()
+                    await gk.copy(LOG_GROUP)
                     await edit.delete()
                     return
                 
@@ -170,10 +170,10 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                        )
                     if msg.pinned_message:
                         try:
-                            awaitgk.pin(both_sides=True)
+                            await gk.pin(both_sides=True)
                         except Exception as e:
-                            awaitgk.pin()
-                    awaitgk.copy(LOG_GROUP)
+                            await gk.pin()
+                    await gk.copy(LOG_GROUP)
                 except:
                     await app.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat...")
 
@@ -202,10 +202,10 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                gk = await app.send_photo(chat_id=target_chat_id, photo=file, caption=caption)
                 if msg.pinned_message:
                     try:
-                        awaitgk.pin(both_sides=True)
+                        await gk.pin(both_sides=True)
                     except Exception as e:
-                        awaitgk.pin()                
-                awaitgk.copy(LOG_GROUP)
+                        await gk.pin()                
+                await gk.copy(LOG_GROUP)
             else:
                 thumb_path = thumbnail(chatx)
                 delete_words = load_delete_words(sender)
@@ -241,11 +241,11 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                     )
                     if msg.pinned_message:
                         try:
-                            awaitgk.pin(both_sides=True)
+                            await gk.pin(both_sides=True)
                         except Exception as e:
-                            awaitgk.pin()
+                            await gk.pin()
 
-                    awaitgk.copy(LOG_GROUP)
+                    await gk.copy(LOG_GROUP)
                 except:
                     await app.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat.") 
                 
