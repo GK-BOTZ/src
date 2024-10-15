@@ -1,19 +1,29 @@
-
 import sys
 import asyncio
 import logging
 from pyromod import listen
-from pyrogram import Client
+from pyrogram import Client utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN, DEFAULT_SESSION
 from telethon.sync import TelegramClient
+import logging
+import asyncio
+
+stream_links = {}
+
+pyroutils.MIN_CHAT_ID = -999999999999
+pyroutils.MIN_CHANNEL_ID = -100999999999999
+
+
+logging.basicConfig(
+    level=logging.ERROR, 
+    format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
+)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO) 
 
 
 loop = asyncio.get_event_loop()
-
-logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
-    level=logging.INFO,
-)
 
 sex = TelegramClient('sexrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 gnbot = Client('babysss', api_id=API_ID, api_hash=API_HASH, session_string=DEFAULT_SESSION)
