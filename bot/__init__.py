@@ -2,7 +2,7 @@ import sys
 import asyncio
 import logging
 from pyromod import listen
-from pyrogram import Client utils as pyroutils
+from pyrogram import Client, utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN, DEFAULT_SESSION
 from telethon.sync import TelegramClient
 import logging
