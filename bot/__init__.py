@@ -5,10 +5,6 @@ from pyromod import listen
 from pyrogram import Client, utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN, DEFAULT_SESSION
 from telethon.sync import TelegramClient
-import logging
-import asyncio
-
-stream_links = {}
 
 pyroutils.MIN_CHAT_ID = -999999999999
 pyroutils.MIN_CHANNEL_ID = -100999999999999
@@ -26,7 +22,7 @@ logger.setLevel(logging.INFO)
 loop = asyncio.get_event_loop()
 
 teleBot = TelegramClient('telebotrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
-user_bot = Client('pyro', api_id=API_ID, api_hash=API_HASH, session_string=DEFAULT_SESSION)
+user_bot = Client('UserBot', api_id=API_ID, api_hash=API_HASH, session_string=DEFAULT_SESSION, no_updates=True)
 try:
     user_bot.start()
 except Exception as e:
@@ -34,15 +30,13 @@ except Exception as e:
     sys.exit(1)
 
 bot = Client(
-    ":RestrictBot:",
+    "bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
     workers=1000,
     sleep_threshold=20,
 )
-
-
 
 async def restrict_bot():
     global BOT_ID, BOT_NAME, BOT_USERNAME
