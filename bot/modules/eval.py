@@ -7,7 +7,7 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import OWNER_ID
-from bot import app
+from bot import bot
 
 
 
@@ -26,13 +26,13 @@ async def edit_or_reply(msg, **kwargs):
     await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 
-@app.on_edited_message(
+@bot.on_edited_message(
     filters.command(["eval", "x"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot
 )
-@app.on_message(
+@bot.on_message(
     filters.command(["eval", "x"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
@@ -111,13 +111,13 @@ async def executor(client, message):
         await edit_or_reply(message, text=final_output, reply_markup=keyboard)
 
 
-@app.on_callback_query(filters.regex(r"runtime"))
+@bot.on_callback_query(filters.regex(r"runtime"))
 async def runtime_func_cq(_, cq):
     runtime = cq.data.split(None, 1)[1]
     await cq.answer(runtime, show_alert=True)
 
 
-@app.on_callback_query(filters.regex("forceclose"))
+@bot.on_callback_query(filters.regex("forceclose"))
 async def forceclose_command(_, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -138,13 +138,13 @@ async def forceclose_command(_, CallbackQuery):
 
 
 
-@app.on_edited_message(
+@bot.on_edited_message(
     filters.command("sh")
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot
 )
-@app.on_message(
+@bot.on_message(
     filters.command("sh")
     & filters.user(OWNER_ID)
     & ~filters.forwarded

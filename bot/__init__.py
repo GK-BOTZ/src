@@ -25,15 +25,15 @@ logger.setLevel(logging.INFO)
 
 loop = asyncio.get_event_loop()
 
-sex = TelegramClient('sexrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
-gnbot = Client('babysss', api_id=API_ID, api_hash=API_HASH, session_string=DEFAULT_SESSION)
+teleBot = TelegramClient('telebotrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+user_bot = Client('pyro', api_id=API_ID, api_hash=API_HASH, session_string=DEFAULT_SESSION)
 try:
-    gnbot.start()
+    user_bot.start()
 except Exception as e:
     print("Default is not working re create or try again")
     sys.exit(1)
 
-app = Client(
+bot = Client(
     ":RestrictBot:",
     api_id=API_ID,
     api_hash=API_HASH,
@@ -46,8 +46,8 @@ app = Client(
 
 async def restrict_bot():
     global BOT_ID, BOT_NAME, BOT_USERNAME
-    await app.start()
-    getme = await app.get_me()
+    await bot.start()
+    getme = await bot.get_me()
     BOT_ID = getme.id
     BOT_USERNAME = getme.username
     if getme.last_name:

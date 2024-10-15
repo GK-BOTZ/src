@@ -25,16 +25,16 @@ async def chk_user(message, user_id):
 
 
 
-async def gen_link(app,chat_id):
-   link = await app.export_chat_invite_link(chat_id)
+async def gen_link(bot,chat_id):
+   link = await bot.export_chat_invite_link(chat_id)
    return link
 
-async def subscribe(app, message):
+async def subscribe(bot, message):
    update_channel = CHANNEL_ID
-   url = await gen_link(app, update_channel)
+   url = await gen_link(bot, update_channel)
    if update_channel:
       try:
-         user = await app.get_chat_member(update_channel, message.from_user.id)
+         user = await bot.get_chat_member(update_channel, message.from_user.id)
          if user.status == "kicked":
             await message.reply_text("You are Banned. Contact -- @gk")
             return 1

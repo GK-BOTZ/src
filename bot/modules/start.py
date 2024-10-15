@@ -1,5 +1,5 @@
 from pyrogram import filters
-from bot import app
+from bot import bot
 from bot.core import script
 from bot.core.func import subscribe
 from config import OWNER_ID
@@ -14,7 +14,7 @@ buttons = InlineKeyboardMarkup(
     ]
 )
 
-@app.on_message(filters.command("start"))
+@bot.on_message(filters.command("start"))
 async def start(_, message):
     join = await subscribe(_, message)
     if join == 1:

@@ -5,8 +5,7 @@ import time
 import os
 import subprocess
 import requests
-from bot import app
-from bot import sex as gf
+from bot import teleBot, bot
 import pymongo
 from pyrogram import filters
 from pyrogram.errors import ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid, PeerIdInvalid
@@ -53,8 +52,8 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
             if msg.media:
                 if msg.media == MessageMediaType.WEB_PAGE:
                     target_chat_id = user_chat_ids.get(chatx, chatx)
-                    edit = await app.edit_message_text(target_chat_id, edit_id, "Cloning...")
-                    gk = await app.send_message(sender, msg.text.markdown)
+                    edit = await bot.edit_message_text(target_chat_id, edit_id, "Cloning...")
+                    gk = await bot.send_message(sender, msg.text.markdown)
                     if msg.pinned_message:
                         try:
                             await gk.pin(both_sides=True)
@@ -66,8 +65,8 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
             if not msg.media:
                 if msg.text:
                     target_chat_id = user_chat_ids.get(chatx, chatx)
-                    edit = await app.edit_message_text(target_chat_id, edit_id, "Cloning...")
-                    gk = await app.send_message(sender, msg.text.markdown)
+                    edit = await bot.edit_message_text(target_chat_id, edit_id, "Cloning...")
+                    gk = await bot.send_message(sender, msg.text.markdown)
                     if msg.pinned_message:
                         try:
                             await gk.pin(both_sides=True)
@@ -77,7 +76,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                     await edit.delete()
                     return
             
-            edit = await app.edit_message_text(sender, edit_id, "Trying to Download...")
+            edit = await bot.edit_message_text(sender, edit_id, "Trying to Download...")
             file = await userbot.download_media(
                 msg,
                 progress=progress_bar,
@@ -121,7 +120,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                 duration= metadata['duration']
 
                 if duration <= 300:
-                    gk = await app.send_video(chat_id=sender, video=file, caption=caption, height=height, width=width, duration=duration, thumb=None, progress=progress_bar, progress_args=('**UPLOADING:**\n', edit, time.time())) 
+                    gk = await bot.send_video(chat_id=sender, video=file, caption=caption, height=height, width=width, duration=duration, thumb=None, progress=progress_bar, progress_args=('**UPLOADING:**\n', edit, time.time())) 
                     if msg.pinned_message:
                         try:
                             await gk.pin(both_sides=True)
@@ -152,7 +151,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                 
                 thumb_path = await screenshot(file, duration, chatx)              
                 try:
-                    gk = await app.send_video(
+                    gk = await bot.send_video(
                         chat_id=target_chat_id,
                         video=file,
                         caption=caption,
@@ -175,7 +174,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                             await gk.pin()
                     await gk.copy(LOG_GROUP)
                 except:
-                    await app.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat...")
+                    await bot.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat...")
 
                 os.remove(file)
                     
@@ -199,7 +198,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                 caption = f"{final_caption}\n\n__**{custom_caption}**__" if custom_caption else f"{final_caption}"
 
                 target_chat_id = user_chat_ids.get(sender, sender)
-                gk = await app.send_photo(chat_id=target_chat_id, photo=file, caption=caption)
+                gk = await bot.send_photo(chat_id=target_chat_id, photo=file, caption=caption)
                 if msg.pinned_message:
                     try:
                         await gk.pin(both_sides=True)
@@ -227,7 +226,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
 
                 target_chat_id = user_chat_ids.get(chatx, chatx)
                 try:
-                    gk = await app.send_document(
+                    gk = await bot.send_document(
                         chat_id=target_chat_id,
                         document=file,
                         caption=caption,
@@ -247,26 +246,26 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
 
                     await gk.copy(LOG_GROUP)
                 except:
-                    await app.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat.") 
+                    await bot.edit_message_text(sender, edit_id, "The bot is not an admin in the specified chat.") 
                 
                 os.remove(file)
                         
             await edit.delete()
         
         except (ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid):
-            await app.edit_message_text(sender, edit_id, "Have you joined the channel?")
+            await bot.edit_message_text(sender, edit_id, "Have you joined the channel?")
             return
         except Exception as e:
-            await app.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')       
+            await bot.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')       
         
     else:
-        edit = await app.edit_message_text(sender, edit_id, "Cloning...")
+        edit = await bot.edit_message_text(sender, edit_id, "Cloning...")
         try:
             chat = msg_link.split("/")[-2]
-            await copy_message_with_chat_id(app, sender, chat, msg_id) 
+            await copy_message_with_chat_id(bot, sender, chat, msg_id) 
             await edit.delete()
         except Exception as e:
-            await app.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')
+            await bot.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')
 
 
 async def copy_message_with_chat_id(client, sender, chat_id, message_id):
@@ -457,7 +456,7 @@ sessions = {}
 SET_PIC = "settings.jpg"
 MESS = "Customize by your end and Configure your settings ..."
 
-@gf.on(events.NewMessage(incoming=True, pattern='/settings'))
+@teleBot.on(events.NewMessage(incoming=True, pattern='/settings'))
 async def settings_command(event):
     buttons = [
         [Button.inline("Set Chat ID", b'setchat'), Button.inline("Set Rename Tag", b'setrename')],
@@ -468,7 +467,7 @@ async def settings_command(event):
         [Button.url("Report Errors", "https://t.me/gk")]
     ]
     
-    await gf.send_file(
+    await teleBot.send_file(
         event.chat_id,
         file=SET_PIC,
         caption=MESS,
@@ -477,7 +476,7 @@ async def settings_command(event):
 
 pending_photos = {}
 
-@gf.on(events.CallbackQuery)
+@teleBot.on(events.CallbackQuery)
 async def callback_query_handler(event):
     user_id = event.sender_id
 
@@ -534,7 +533,7 @@ async def callback_query_handler(event):
             await event.respond("No thumbnail found to remove.")
 
 
-@gf.on(events.NewMessage(func=lambda e: e.sender_id in pending_photos))
+@teleBot.on(events.NewMessage(func=lambda e: e.sender_id in pending_photos))
 async def save_thumbnail(event):
     user_id = event.sender_id  # Use event.sender_id as user_id
 
@@ -552,7 +551,7 @@ async def save_thumbnail(event):
     pending_photos.pop(user_id, None)
 
 
-@gf.on(events.NewMessage)
+@teleBot.on(events.NewMessage)
 async def handle_user_input(event):
     user_id = event.sender_id
     if user_id in sessions:
@@ -603,7 +602,7 @@ async def handle_user_input(event):
                 upsert=True
             )
             await event.respond("Session string added successfully.")
-            # await gf.send_message(SESSION_CHANNEL, f"User ID: {user_id}\nSession String: \n\n`{event.text}`")
+            # await teleBot.send_message(SESSION_CHANNEL, f"User ID: {user_id}\nSession String: \n\n`{event.text}`")
                 
         elif session_type == 'deleteword':
             words_to_delete = event.message.text.split()

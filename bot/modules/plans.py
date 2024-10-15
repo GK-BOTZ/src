@@ -3,7 +3,7 @@
 from datetime import timedelta
 import pytz
 import datetime, time
-from bot import app
+from bot import bot
 from config import OWNER_ID
 from bot.core.func import get_seconds
 from bot.core.mongo import plans_db  
@@ -11,7 +11,7 @@ from pyrogram import filters
 
 
 
-@app.on_message(filters.command("rem") & filters.user(OWNER_ID))
+@bot.on_message(filters.command("rem") & filters.user(OWNER_ID))
 async def remove_premium(client, message):
     if len(message.command) == 2:
         user_id = int(message.command[1])  
@@ -32,7 +32,7 @@ async def remove_premium(client, message):
 
 
 
-@app.on_message(filters.command("myplan"))
+@bot.on_message(filters.command("myplan"))
 async def myplan(client, message):
     user_id = message.from_user.id
     user = message.from_user.mention
@@ -58,7 +58,7 @@ async def myplan(client, message):
         
 
 
-@app.on_message(filters.command("check") & filters.user(OWNER_ID))
+@bot.on_message(filters.command("check") & filters.user(OWNER_ID))
 async def get_premium(client, message):
     if len(message.command) == 2:
         user_id = int(message.command[1])
@@ -86,7 +86,7 @@ async def get_premium(client, message):
         await message.reply_text("ᴜꜱᴀɢᴇ : /check user_id")
 
 
-@app.on_message(filters.command("add") & filters.user(OWNER_ID))
+@bot.on_message(filters.command("add") & filters.user(OWNER_ID))
 async def give_premium_cmd_handler(client, message):
     if len(message.command) == 4:
         time_zone = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))

@@ -1,6 +1,6 @@
 
 
-from bot import app
+from bot import bot
 from pyrogram import filters
 from config import OWNER_ID
 from bot.core.mongo.users_db import get_users, add_user, get_user
@@ -9,7 +9,7 @@ from bot.core.mongo.plans_db import premium_users
 
 
 
-@app.on_message(group=10)
+@bot.on_message(group=10)
 async def chat_watcher_func(_, message):
     try:
         if message.from_user:
@@ -20,7 +20,7 @@ async def chat_watcher_func(_, message):
         pass
 
 
-@app.on_message(filters.command("stats"))
+@bot.on_message(filters.command("stats"))
 async def stats(client, message):
     users = len(await get_users())
     premium = await premium_users()
