@@ -10,6 +10,7 @@ import config
 
 @Client.on_message(filters.command("start"))
 async def start(c, m):
+ try:
    uid = m.from_user.id
    async with global_lock:
       if uid not in user_locks:
@@ -21,3 +22,5 @@ async def start(c, m):
          if buttons:
             return await srm(c, m, text, markup=buttons, dt=100, photo="https://envs.sh/s/8w3GxIy7MKqojoEKWLu1IQ/SI1.jpg") 
          await srm(c, m, photo="https://envs.sh/s/8w3GxIy7MKqojoEKWLu1IQ/SI1.jpg", text=script.START_TXT.format(m.from_user.mention), markup=buttons)
+ except:
+    logger.error('Ha', exc_info=True)
