@@ -1,5 +1,3 @@
-
-
 import time
 import asyncio
 from pyrogram import filters, Client
@@ -9,23 +7,21 @@ from bot.core.get_func import get_msg
 from bot.core.func import *
 from bot.core.mongo import db
 from pyrogram.errors import FloodWait
-
+import config 
 
 @bot.on_message(filters.regex(r'https?://[^\s]+'))
-async def single_link(_, message):
+async def single_link(client, message):
     user_id = message.chat.id
-    lol = await chk_user(message, user_id)
-    if lol == 1:
-        return
-    
     link = get_link(message.text) 
     
     try:
-        join = await subscribe(_, message)
-        if join == 1:
-            return
-     
-        msg = await message.reply("Processing...")
+        if config.FSUB_CHANNELS:
+         text, buttons = await handle_force_sub(c, m)
+         if buttons:
+            return await srm(client, message, text, markup=buttons, dt=100, photo=config.START_PIC) 
+         await srm(c, m, photo=config.START_PIC, text=script.START_TXT.format(m.from_user.mention), markup=buttons)
+            
+        msg = await srm(client, message, "Processing...", dt=0)
         data = await db.get_data(user_id)
         
         if data and data.get("session"):
