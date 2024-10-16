@@ -63,9 +63,9 @@ async def handle_force_sub(client, message):
         uid = message.from_user.id
         buttons = []
         text = "**🔒 Join The Channels Below To Use Me 🔒**\n"
-        if uid in Config.PREMIUM_USER:
+        if uid in config.PREMIUM_USER:
            return text, None
-        for channel in Config.FSUB_CHANNELS:
+        for channel in config.FSUB_CHANNELS:
             chat = await client.get_chat(channel)
             try:
                 await client.get_chat_member(chat_id=channel, user_id=uid)
