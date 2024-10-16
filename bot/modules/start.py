@@ -20,7 +20,7 @@ async def start(c, m):
       if config.FSUB_CHANNELS:
          text, buttons = await handle_force_sub(c, m)
          if buttons:
-            return await srm(c, m, text, markup=buttons, dt=100, photo="https://envs.sh/s/8w3GxIy7MKqojoEKWLu1IQ/SI1.jpg") 
-         await srm(c, m, photo="https://envs.sh/s/8w3GxIy7MKqojoEKWLu1IQ/SI1.jpg", text=script.START_TXT.format(m.from_user.mention), markup=buttons)
+            return await srm(c, m, text, markup=buttons, dt=100, photo=config.START_PIC) 
+         await srm(c, m, photo=config.START_PIC, text=script.START_TXT.format(m.from_user.mention), markup=buttons)
  except:
     logger.error('Ha', exc_info=True)
