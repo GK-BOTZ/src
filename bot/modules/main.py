@@ -19,7 +19,7 @@ async def single_link(client, message):
          text, buttons = await handle_force_sub(client, message)
          if buttons:
             return await srm(client, message, text, markup=buttons, dt=100, photo=config.START_PIC) 
-         await srm(client, message, photo=config.START_PIC, text=script.START_TXT.format(m.from_user.mention), markup=buttons)
+         await srm(client, message, photo=config.START_PIC, text=script.START_TXT.format(message.from_user.mention), markup=buttons)
             
         msg = await srm(client, message, "Processing...", dt=0)
         data = await db.get_data(user_id)
