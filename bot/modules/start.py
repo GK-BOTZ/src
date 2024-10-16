@@ -3,12 +3,12 @@ from bot.core import script
 from bot.core.func import handle_force_sub, srm
 from config import OWNER_ID, CHANNEL_LINK, OWNER
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-from bot import user_locks, global_lock, logger
+from bot import user_locks, global_lock, logger, bot
 import asyncio
 import config
 
 
-@Client.on_message(filters.command("start"))
+@bot.on_message(filters.command("start"))
 async def start(c, m):
  try:
    uid = m.from_user.id
