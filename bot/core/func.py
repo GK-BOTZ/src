@@ -38,7 +38,7 @@ async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, dt
           reply_markup=markup,
           **kwargs
       )
-   if delete:
+   if dt:
       await delete_msg([my, m], dt=dt)
    return my
  except:
