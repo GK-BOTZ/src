@@ -1,10 +1,8 @@
-#gk
-
-
 import math
 import time , re
 from pyrogram import enums
 from config import CHANNEL_ID, OWNER_ID 
+import config
 from bot.core import script
 from bot.core.mongo.plans_db import premium_users
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -12,8 +10,82 @@ import cv2
 from pyrogram.errors import FloodWait, InviteHashInvalid, InviteHashExpired, UserAlreadyParticipant, UserNotParticipant
 from datetime import datetime as dt
 import asyncio, subprocess, re, os, time
+from pyrogram.errors import UserNotParticipant
+from bot import logger
 
+async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, delete=20, **kwargs):
+ try:
+   replyid = reply_id if reply_id else m.id
+   mid = m.message.id if hasattr(m, 'message') else replyid
+   tosend = m.message.chat.id if hasattr(m, 'message') else m.chat.id
+   if photo:
+      my = await c.send_photo(
+          chat_id=tosend,
+          photo=photo,
+          caption=text,
+          reply_to_message_id=mid,
+          reply_markup=markup,
+          **kwargs
+      )
+   elif video:
+       pass
+       
+   else:
+       my = await c.send_message(
+          chat_id=tosend,
+          text=text,
+          reply_to_message_id=mid,
+          reply_markup=markup,
+          **kwargs
+      )
+   if delete:
+      await delete_msg([my, m], dt=delete)
+   return my
+ except:
+   LOGGER.error('srm', exc_info=True)
 
+async def delete_msg(msg_list: list, dt=10):
+   async def _delete_messages():
+      await asyncio.sleep(dt)
+      for msg in msg_list:
+         try:
+            await msg.delete()
+            #logger.info("Message Deleted Succefully...")
+         except Exception as e:
+             pass 
+   asyncio.create_task(_delete_messages())
+     
+invite_links = {}
+async def handle_force_sub(client, message):
+    try:
+        if not hasattr(message, 'from_user'):
+           return None, None
+        uid = message.from_user.id
+        buttons = []
+        text = "**🔒 Join The Channels Below To Use Me 🔒**\n"
+        if uid in Config.PREMIUM_USER:
+           return text, None
+        for channel in Config.FSUB_CHANNELS:
+            chat = await client.get_chat(channel)
+            try:
+                await client.get_chat_member(chat_id=channel, user_id=uid)
+            except UserNotParticipant:
+                async with lock:
+                    if channel not in invite_links:
+                       invite_link = await client.export_chat_invite_link(chat_id=channel)
+                       invite_links[channel] = invite_link  # Store the link in the dictionary
+                    else:
+                       invite_link = invite_links[channel]  # Retrieve the existing link
+
+                buttons.append([InlineKeyboardButton(f"Join {chat.title}", url=invite_link)])
+
+        if buttons:
+            buttons.append([InlineKeyboardButton('🔄 Rᴇғʀᴇsʜ 🔄', callback_data='genrl_fsub')])
+        return text, InlineKeyboardMarkup(buttons) if buttons else None
+
+    except Exception as e:
+        Logger.error('fsub', exc_info=True)
+        return await message.reply(f"Got An Error - {str(e)}")
 
 async def chk_user(message, user_id):
     user = await premium_users()
@@ -22,7 +94,6 @@ async def chk_user(message, user_id):
   ##  else:
       #  await message.reply_text("Purchase premium to do the tasks...")
        # return 1
-
 
 
 async def gen_link(bot,chat_id):
