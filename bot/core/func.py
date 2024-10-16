@@ -12,6 +12,7 @@ from datetime import datetime as dt
 import asyncio, subprocess, re, os, time
 from pyrogram.errors import UserNotParticipant
 from bot import logger
+import config
 
 async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, dt=20, **kwargs):
  try:
@@ -150,23 +151,17 @@ async def get_seconds(time_string):
     else:
         return 0
 
-
-
-
 PROGRESS_BAR = """\n
-**__Completed__** : {1}/{2}
-**__Bytes__** : {0}%
-**__Speed__** : {3}/s
-**__Time__** : {4}
-"""
-
+**• Total 🗃 :** `{1}`
+**• Done ✅ :** `{0}`
+**• Speed 📊 :** `{2}/s`
+**• ETA 🔃 : ** `{3}`"""
+                   
 
 async def progress_bar(current, total, ud_type, message, start):
-
     now = time.time()
     diff = now - start
-    if round(diff % 10.00) == 0 or current == total:
-        # if round(current / total * 100, 0) % 5 == 0:
+    if round(diff % float(config.EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
         percentage = current * 100 / total
         speed = current / diff
         elapsed_time = round(diff) * 1000
@@ -177,11 +172,11 @@ async def progress_bar(current, total, ud_type, message, start):
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
         progress = "{0}{1}".format(
-            ''.join(["🟢" for i in range(math.floor(percentage / 10))]),
-            ''.join(["🔴" for i in range(10 - math.floor(percentage / 10))]))
-            
-        tmp = progress + PROGRESS_BAR.format( 
+            ''.join([config.FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+            ''.join([config.UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2),
+        )
+        tmp = progress + PROGRESS_BAR.format(
             humanbytes(current),
             humanbytes(total),
             humanbytes(speed),
@@ -190,7 +185,8 @@ async def progress_bar(current, total, ud_type, message, start):
         )
         try:
             await message.edit(
-                text="{}\n\n{}".format(ud_type, tmp),)             
+                text="{}\n\n{}".format(ud_type, tmp),
+            )             
                 
         except:
             pass
