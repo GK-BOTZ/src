@@ -14,5 +14,5 @@ CHANNEL_LINK = getenv('CHANNEL_LINK', 'GKBotz')
 OWNER = getenv('OWNER', 'Talk2Smile_Bot')
 PREMIUM_USER = getenv('PREMIUM_USER', [5811080171, 6177970139])
 FSUB_CHANNELS = getenv('FSUB_CHANNEL', [-1002254851900])
- 
-
+START_PIC = getenv('START_PIC', 'https://envs.sh/s/SDNpX44mayxsxJSNKNdyBw/S71.png')
+  
