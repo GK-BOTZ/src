@@ -13,7 +13,7 @@ import asyncio, subprocess, re, os, time
 from pyrogram.errors import UserNotParticipant
 from bot import logger
 
-async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, delete=20, **kwargs):
+async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, dt=20, **kwargs):
  try:
    replyid = reply_id if reply_id else m.id
    mid = m.message.id if hasattr(m, 'message') else replyid
@@ -39,7 +39,7 @@ async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, de
           **kwargs
       )
    if delete:
-      await delete_msg([my, m], dt=delete)
+      await delete_msg([my, m], dt=dt)
    return my
  except:
    logger.error('srm', exc_info=True)
