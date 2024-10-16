@@ -42,7 +42,7 @@ async def srm(c, m, text, photo=None, video=None, markup=None, reply_id=None, de
       await delete_msg([my, m], dt=delete)
    return my
  except:
-   LOGGER.error('srm', exc_info=True)
+   logger.error('srm', exc_info=True)
 
 async def delete_msg(msg_list: list, dt=10):
    async def _delete_messages():
@@ -70,13 +70,11 @@ async def handle_force_sub(client, message):
             try:
                 await client.get_chat_member(chat_id=channel, user_id=uid)
             except UserNotParticipant:
-                async with lock:
-                    if channel not in invite_links:
-                       invite_link = await client.export_chat_invite_link(chat_id=channel)
-                       invite_links[channel] = invite_link  # Store the link in the dictionary
-                    else:
-                       invite_link = invite_links[channel]  # Retrieve the existing link
-
+                if channel not in invite_links:
+                   invite_link = await client.export_chat_invite_link(chat_id=channel)
+                   invite_links[channel] = invite_link  # Store the link in the dictionary
+                else:
+                   invite_link = invite_links[channel]  # Retrieve the existing link
                 buttons.append([InlineKeyboardButton(f"Join {chat.title}", url=invite_link)])
 
         if buttons:
@@ -84,7 +82,7 @@ async def handle_force_sub(client, message):
         return text, InlineKeyboardMarkup(buttons) if buttons else None
 
     except Exception as e:
-        Logger.error('fsub', exc_info=True)
+        logger.error('fsub', exc_info=True)
         return await message.reply(f"Got An Error - {str(e)}")
 
 async def chk_user(message, user_id):
