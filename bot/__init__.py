@@ -17,7 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO) 
 
-global_lock = {}
+global_lock = asyncio.lock()
 user_locks = {}
 loop = asyncio.get_event_loop()
 
