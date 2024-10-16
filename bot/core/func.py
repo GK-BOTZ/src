@@ -171,7 +171,7 @@ async def progress_bar(current, total, ud_type, message, start):
         elapsed_time = TimeFormatter(milliseconds=elapsed_time)
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-        progress = "{0}{1}".format(
+        progress = "\n<code>[{0}{1}] {2}%</code>\n".format(
             ''.join([config.FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
             ''.join([config.UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2),
