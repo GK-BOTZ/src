@@ -17,7 +17,7 @@ async def start(c, m):
          user_locks[uid] = asyncio.Lock()
             
    async with user_locks[uid]:
-      if Config.FSUB_CHANNELS:
+      if config.FSUB_CHANNELS:
          text, buttons = await handle_force_sub(c, m)
          if buttons:
             return await srm(c, m, text, markup=buttons, dt=100, photo="https://envs.sh/s/8w3GxIy7MKqojoEKWLu1IQ/SI1.jpg") 
