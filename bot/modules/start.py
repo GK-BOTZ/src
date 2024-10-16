@@ -3,7 +3,7 @@ from bot.core import script
 from bot.core.func import handle_force_sub, srm
 from config import OWNER_ID, CHANNEL_LINK, OWNER
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-from bot import user_locks, global_lock
+from bot import user_locks, global_lock, logger
 import asyncio
 import config
 
