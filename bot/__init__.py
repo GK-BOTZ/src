@@ -14,11 +14,11 @@ logging.basicConfig(
     level=logging.ERROR, 
     format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
 )
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO) 
 
-
+global_lock = {}
+user_locks = {}
 loop = asyncio.get_event_loop()
 
 teleBot = TelegramClient('telebotrepo', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
