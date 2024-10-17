@@ -2,8 +2,7 @@
 
 
 from pyrogram import filters, Client
-from bot import bot
-from pyromod import listen
+from bot import bot, logger
 import random
 import os
 import string
@@ -55,62 +54,77 @@ async def clear_db(client, message):
         
     
 @bot.on_message(filters.command("login"))
-async def generate_session(_, message):
-    joined = await subscribe(_, message)
-    if joined == 1:
-        return
-        
-    # user_checked = await chk_user(message, message.from_user.id)
-    # if user_checked == 1:
-        # return
-        
-    user_id = message.chat.id   
-    
-    number = await _.ask(user_id, 'Please enter your phone number along with the country code. \nExample: +19876543210', filters=filters.text)   
-    phone_number = number.text
+async def generate_session(c, m):
+ try:
+    uid = m.from_user.id
+    cid = m.chat.id
     try:
-        await message.reply("📲 Sending OTP...")
+        msg = await c.send_message(chat_id=cid, text="» ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴡɪᴛʜ ᴄᴏᴜɴᴛʀʏ ᴄᴏᴅᴇ ғᴏʀ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴇssɪᴏɴ. \nᴇxᴀᴍᴩʟᴇ : `+910000000000`'",  reply_to_message_id=m.id)
+        ask_number = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
+        if await cancelled(asking):
+           return
+    except ListenerTimeout:
+        await msg.edit("**Cancelled The Process Cause Time Has Ran Out 😂**")
+        return
+    phone_number = ask_number.text
+    await ask_number.delete()
+    try:
+        await msg.edit("» ᴛʀʏɪɴɢ ᴛᴏ sᴇɴᴅ ᴏᴛᴩ ᴀᴛ ᴛʜᴇ ɢɪᴠᴇɴ ɴᴜᴍʙᴇʀ...")
         client = Client(f"session_{user_id}", api_id, api_hash)
-        
         await client.connect()
-    except Exception as e:
-        await message.reply(f"❌ Failed to send OTP {e}. Please wait and try again later.")
-    try:
-        code = await client.send_code(phone_number)
-    except ApiIdInvalid:
-        await message.reply('❌ Invalid combination of API ID and API HASH. Please restart the session.')
-        return
+        await client.send_code(phone_number)
     except PhoneNumberInvalid:
-        await message.reply('❌ Invalid phone number. Please restart the session.')
+        await msg.edit("» ᴛʜᴇ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ᴅᴏᴇsɴ'ᴛ ʙᴇʟᴏɴɢ ᴛᴏ ᴀɴʏ ᴛᴇʟᴇɢʀᴀᴍ ᴀᴄᴄᴏᴜɴᴛ.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(gen_button))
         return
     try:
-        otp_code = await _.ask(user_id, "Please check for an OTP in your official Telegram account. Once received, enter the OTP in the following format: \nIf the OTP is `12345`, please enter it as `1 2 3 4 5`.", filters=filters.text, timeout=600)
+        await msg.edit("» ᴩʟᴇᴀsᴇ sᴇɴᴅ ᴛʜᴇ **ᴏᴛᴩ** ᴛʜᴀᴛ ʏᴏᴜ'ᴠᴇ ʀᴇᴄᴇɪᴠᴇᴅ ғʀᴏᴍ ᴛᴇʟᴇɢʀᴀᴍ ᴏɴ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ.\nɪғ ᴏᴛᴩ ɪs `12345`, **ᴩʟᴇᴀsᴇ sᴇɴᴅ ɪᴛ ᴀs** `1 2 3 4 5`.\n\n/cancel : To Cancel The Process")
+        ask_otp = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
+        if await cancelled(phone_code_msg):
+           return
     except TimeoutError:
-        await message.reply('⏰ Time limit of 10 minutes exceeded. Please restart the session.')
+        await msg.edit("» ᴛɪᴍᴇ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇᴅ ᴏғ 5 ᴍɪɴᴜᴛᴇs.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ Login ᴀɢᴀɪɴ.")
         return
-    phone_code = otp_code.text.replace(" ", "")
+    phone_code = ask_otp.text.replace(" ", "")
+    ask_otp.delete()
     try:
         await client.sign_in(phone_number, code.phone_code_hash, phone_code)
-                
     except PhoneCodeInvalid:
-        await message.reply('❌ Invalid OTP. Please restart the session.')
+        await msg.edit("» ᴛʜᴇ ᴏᴛᴩ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs **ᴡʀᴏɴɢ.**\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
         return
     except PhoneCodeExpired:
-        await message.reply('❌ Expired OTP. Please restart the session.')
+        await msg.edit("» ᴛʜᴇ ᴏᴛᴩ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs **ᴇxᴩɪʀᴇᴅ.**\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
         return
     except SessionPasswordNeeded:
         try:
-            two_step_msg = await _.ask(user_id, 'Your account has two-step verification enabled. Please enter your password.', filters=filters.text, timeout=300)
-        except TimeoutError:
-            await message.reply('⏰ Time limit of 5 minutes exceeded. Please restart the session.')
+            await msg.edit("» ᴩʟᴇᴀsᴇ ᴇɴᴛᴇʀ ʏᴏᴜʀ **ᴛᴡᴏ sᴛᴇᴩ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ** ᴩᴀssᴡᴏʀᴅ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.")
+            ask_2fa = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
+        except ListenerTimeout:
+            await msg.edit("» ᴛɪᴍᴇ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇᴅ ᴏғ 5 ᴍɪɴᴜᴛᴇs.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
             return
         try:
-            password = two_step_msg.text
+            password = ask_2fa.text
             await client.check_password(password=password)
+            if await cancelled(api_id_msg):
+               return
         except PasswordHashInvalid:
-            await two_step_msg.reply('❌ Invalid password. Please restart the session.')
+            await msg.edit("» ᴛʜᴇ ᴩᴀssᴡᴏʀᴅ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs ᴡʀᴏɴɢ.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", quote=True, reply_markup=InlineKeyboardMarkup(gen_button))
             return
+    await client.sign_in_bot(phone_number)
     string_session = await client.export_session_string()
-    await db.set_session(user_id, string_session)
+    await db.set_session(uid, string_session)
     await client.disconnect()
-    await otp_code.reply("✅ Login successful!")
+    await m.reply("✅ Login successful!")
+    text = f"**Tʜɪs Is Yᴏᴜʀ Pyrogram Sᴇssɪᴏɴ Sᴛʀɪɴɢ** \n\n`{string_session}` \n\n**ɴᴏᴛᴇ ⚠️:** ᴅᴏɴ'ᴛ sʜᴀʀᴇ ᴛʜɪs ᴡɪᴛʜ ᴀɴʏᴏɴᴇ** "
+    await c.send_message(msg.from_user.id, text)
+ except:
+    logger.error('login', exc_info=True)
+    
+async def cancelled(msg):
+    if "/cancel" in msg.text:
+        await msg.reply("**» ᴄᴀɴᴄᴇʟʟᴇᴅ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛɪᴏɴ ᴩʀᴏᴄᴇss !**", quote=True)
+        return True
+    elif msg.text.startswith("/"):  # Bot Commands
+        await msg.reply("**» ᴄᴀɴᴄᴇʟʟᴇᴅ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛɪᴏɴ ᴩʀᴏᴄᴇss !**", quote=True)
+        return True
+    else:
+        return False
