@@ -70,7 +70,7 @@ async def generate_session(c, m):
     await ask_number.delete()
     try:
         await msg.edit("» ᴛʀʏɪɴɢ ᴛᴏ sᴇɴᴅ ᴏᴛᴩ ᴀᴛ ᴛʜᴇ ɢɪᴠᴇɴ ɴᴜᴍʙᴇʀ...")
-        client = Client(f"session_{user_id}", api_id, api_hash)
+        client = Client(f"session_{uid}", api_id, api_hash)
         await client.connect()
         await client.send_code(phone_number)
     except PhoneNumberInvalid:
