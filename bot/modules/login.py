@@ -18,6 +18,7 @@ from pyrogram.errors import (
     PasswordHashInvalid,
     FloodWait
 )
+from pyromod.exceptions import ListenerTimeout
 
 def generate_random_name(length=7):
     characters = string.ascii_letters + string.digits
