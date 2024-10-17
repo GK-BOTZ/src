@@ -75,6 +75,9 @@ async def generate_session(c, m):
     except PhoneNumberInvalid:
         await msg.edit(f"**» Tʜᴇ Pʜᴏɴᴇ Nᴜᴍʙᴇʀ ||{phone_number}||, Dᴏᴇs Noᴛ Bᴇʟᴏɴɢ Tᴏ Aɴʏ Tᴇʟᴇɢʀᴀᴍ Aᴄᴄᴏᴜɴᴛ.\n\nCʜᴇᴄᴋ Yᴏᴜʀ Nᴜᴍʙᴇʀ Aɴᴅ /login Aɢᴀɪɴ...**")
         return
+    except Exception as er:
+        await msg.edit(f"**» Gᴏᴛ Aɴ Eʀʀᴏʀ ->** {str(er)}")
+        return
     try:
         await msg.edit("**» Eɴᴛᴇʀ Tʜᴇ OTP Yᴏᴜʀ Rᴇᴄᴇɪᴠᴇᴅ Fʀᴏᴍ [Tᴇʟᴇɢʀᴀᴍ](ᴛ.ᴍᴇ/+𝟺𝟸𝟽𝟽𝟽).\n\nFᴏʀᴍᴀᴛ:- Iғ OTP Is 𝟷𝟸𝟹𝟺𝟻, Eɴᴛᴇʀ As 𝟷 𝟸 𝟹 𝟺 𝟻 (Wɪᴛʜ Oɴᴇ Wʜɪᴛᴇ ' ' Sᴘᴀᴄᴇ)\n\n/cancel - Tᴏ Cᴀɴᴄᴇʟ Lᴏɢɪɴ Pʀᴏᴄᴇss**")
         ask_otp = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
@@ -108,6 +111,9 @@ async def generate_session(c, m):
         except PasswordHashInvalid:
             await msg.edit("**» Wʀᴏɴɢ ||𝟸FA Pᴀssᴡᴏʀᴅ 🔑.||\n\nCʜᴇᴄᴋ Yᴏᴜʀ Pᴀssᴡᴏʀᴅ Aɴᴅ /login Aɢᴀɪɴ...** ")
             return
+    except Exception as er:
+        await msg.edit(f"**» Gᴏᴛ Aɴ Eʀʀᴏʀ ->** {str(er)}")
+        return
     await client.sign_in_bot(phone_number)
     string_session = await client.export_session_string()
     await db.set_session(uid, string_session)
