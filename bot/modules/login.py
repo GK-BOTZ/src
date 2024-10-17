@@ -105,6 +105,7 @@ async def generate_session(c, m):
             return
         try:
             password = ask_2fa.text
+            await ask_2fa.delete()
             await client.check_password(password=password)
             if await cancelled(msg, ask_2fa):
                return
@@ -117,9 +118,9 @@ async def generate_session(c, m):
     string_session = await client.export_session_string()
     await db.set_session(uid, string_session)
     await client.disconnect()
-    await m.reply("Sᴜᴄᴄᴇғᴜʟʟʏ Lᴏɢɢᴇᴅ Iɴ ✅...")
+    await msg.edit("**Lᴏɢɢᴇᴅ Iɴ Sᴜᴄᴄᴇғᴜʟʟʏ ✅...**")
     text = f"**Tʜɪs Is Yᴏᴜʀ Pʏʀᴏɢʀᴀᴍ Sᴇssɪᴏɴ Sᴛʀɪɴɢ** \n\n||{string_session}|| \n\n**ɴᴏᴛᴇ ⚠️:** ᴅᴏɴ'ᴛ sʜᴀʀᴇ ᴛʜɪs ᴡɪᴛʜ ᴀɴʏᴏɴᴇ** "
-    await c.send_message(msg.from_user.id, text)
+    await c.send_message(m.from_user.id, text)
  except:
     logger.error('login', exc_info=True)
     
