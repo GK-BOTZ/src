@@ -114,7 +114,6 @@ async def generate_session(c, m):
     except Exception as er:
         await msg.edit(f"**» Gᴏᴛ Aɴ Eʀʀᴏʀ ->** {str(er)}")
         return
-    await client.sign_in_bot(phone_number)
     string_session = await client.export_session_string()
     await db.set_session(uid, string_session)
     await client.disconnect()
