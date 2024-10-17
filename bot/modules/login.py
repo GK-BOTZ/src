@@ -62,7 +62,7 @@ async def generate_session(c, m):
     try:
         msg = await c.send_message(chat_id=cid, text="» ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴡɪᴛʜ ᴄᴏᴜɴᴛʀʏ ᴄᴏᴅᴇ ғᴏʀ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴇssɪᴏɴ. \nᴇxᴀᴍᴩʟᴇ : `+910000000000`'",  reply_to_message_id=m.id)
         ask_number = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
-        if await cancelled(asking):
+        if await cancelled(ask_number):
            return
     except ListenerTimeout:
         await msg.edit("**Cancelled The Process Cause Time Has Ran Out 😂**")
@@ -80,7 +80,7 @@ async def generate_session(c, m):
     try:
         await msg.edit("» ᴩʟᴇᴀsᴇ sᴇɴᴅ ᴛʜᴇ **ᴏᴛᴩ** ᴛʜᴀᴛ ʏᴏᴜ'ᴠᴇ ʀᴇᴄᴇɪᴠᴇᴅ ғʀᴏᴍ ᴛᴇʟᴇɢʀᴀᴍ ᴏɴ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ.\nɪғ ᴏᴛᴩ ɪs `12345`, **ᴩʟᴇᴀsᴇ sᴇɴᴅ ɪᴛ ᴀs** `1 2 3 4 5`.\n\n/cancel : To Cancel The Process")
         ask_otp = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
-        if await cancelled(phone_code_msg):
+        if await cancelled(ask_otp):
            return
     except TimeoutError:
         await msg.edit("» ᴛɪᴍᴇ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇᴅ ᴏғ 5 ᴍɪɴᴜᴛᴇs.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ Login ᴀɢᴀɪɴ.")
@@ -105,7 +105,7 @@ async def generate_session(c, m):
         try:
             password = ask_2fa.text
             await client.check_password(password=password)
-            if await cancelled(api_id_msg):
+            if await cancelled(ask_2fa):
                return
         except PasswordHashInvalid:
             await msg.edit("» ᴛʜᴇ ᴩᴀssᴡᴏʀᴅ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs ᴡʀᴏɴɢ.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", quote=True, reply_markup=InlineKeyboardMarkup(gen_button))
