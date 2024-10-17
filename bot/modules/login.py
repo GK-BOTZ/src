@@ -1,6 +1,3 @@
-
-
-
 from pyrogram import filters, Client
 from bot import bot, logger
 import random
@@ -56,76 +53,80 @@ async def clear_db(client, message):
     
 @bot.on_message(filters.command("login"))
 async def generate_session(c, m):
+ tout_msg = "**||Pʀᴏᴄᴇss Hᴀs Bᴇᴇɴ Cᴀɴᴄᴇʟʟᴇᴅ ❌, Bᴇᴄᴀᴜsᴇ Tɪᴍᴇ ⌛ Hᴀs Rᴀɴ Oᴜᴛ 🏃, \n\nBᴛᴡ Yᴏᴜ Cᴀɴ /login Aɢᴀɪɴ||**"
  try:
     uid = m.from_user.id
     cid = m.chat.id
     try:
-        msg = await c.send_message(chat_id=cid, text="» ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴡɪᴛʜ ᴄᴏᴜɴᴛʀʏ ᴄᴏᴅᴇ ғᴏʀ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴇssɪᴏɴ. \nᴇxᴀᴍᴩʟᴇ : `+910000000000`'",  reply_to_message_id=m.id)
+        msg = await c.send_message(chat_id=cid, text="**» Sᴇɴᴅ Yᴏᴜʀ ||Pʜᴏɴᴇ Nᴜᴍʙᴇʀ|| Wɪᴛʜ Cᴏᴜɴᴛʀʏ Cᴏᴅᴇ, Tᴏ Lᴏɢɪɴ Vɪᴀ Usᴇʀ Bᴏᴛ. \nExᴀᴍᴩʟᴇ : ||+918713820405|| \n\n/cancel - Tᴏ Cᴀɴᴄᴇʟ Lᴏɢɪɴ Pʀᴏᴄᴇss**",  reply_to_message_id=m.id)
         ask_number = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
-        if await cancelled(ask_number):
+        if await cancelled(msg, ask_number):
            return
     except ListenerTimeout:
-        await msg.edit("**Cancelled The Process Cause Time Has Ran Out 😂**")
+        await msg.edit(tout_msg)
         return
     phone_number = ask_number.text
     await ask_number.delete()
     try:
-        await msg.edit("» ᴛʀʏɪɴɢ ᴛᴏ sᴇɴᴅ ᴏᴛᴩ ᴀᴛ ᴛʜᴇ ɢɪᴠᴇɴ ɴᴜᴍʙᴇʀ...")
+        await msg.edit(f"**» Sᴇɴᴅɪɴɢ OTP Tᴏ -> ||{phone_number}||**")
         client = Client(f"session_{uid}", api_id, api_hash)
         await client.connect()
         code = await client.send_code(phone_number)
     except PhoneNumberInvalid:
-        await msg.edit("» ᴛʜᴇ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ᴅᴏᴇsɴ'ᴛ ʙᴇʟᴏɴɢ ᴛᴏ ᴀɴʏ ᴛᴇʟᴇɢʀᴀᴍ ᴀᴄᴄᴏᴜɴᴛ.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(gen_button))
+        await msg.edit(f"**» Tʜᴇ Pʜᴏɴᴇ Nᴜᴍʙᴇʀ ||{phone_number}||, Dᴏᴇs Noᴛ Bᴇʟᴏɴɢ Tᴏ Aɴʏ Tᴇʟᴇɢʀᴀᴍ Aᴄᴄᴏᴜɴᴛ.\n\nCʜᴇᴄᴋ Yᴏᴜʀ Nᴜᴍʙᴇʀ Aɴᴅ /login Aɢᴀɪɴ...**")
         return
     try:
-        await msg.edit("» ᴩʟᴇᴀsᴇ sᴇɴᴅ ᴛʜᴇ **ᴏᴛᴩ** ᴛʜᴀᴛ ʏᴏᴜ'ᴠᴇ ʀᴇᴄᴇɪᴠᴇᴅ ғʀᴏᴍ ᴛᴇʟᴇɢʀᴀᴍ ᴏɴ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ.\nɪғ ᴏᴛᴩ ɪs `12345`, **ᴩʟᴇᴀsᴇ sᴇɴᴅ ɪᴛ ᴀs** `1 2 3 4 5`.\n\n/cancel : To Cancel The Process")
+        await msg.edit("**» Eɴᴛᴇʀ Tʜᴇ OTP Yᴏᴜʀ Rᴇᴄᴇɪᴠᴇᴅ Fʀᴏᴍ [Tᴇʟᴇɢʀᴀᴍ](ᴛ.ᴍᴇ/+𝟺𝟸𝟽𝟽𝟽).\n\nFᴏʀᴍᴀᴛ:- Iғ OTP Is 𝟷𝟸𝟹𝟺𝟻, Eɴᴛᴇʀ As 𝟷 𝟸 𝟹 𝟺 𝟻 (Wɪᴛʜ Oɴᴇ Wʜɪᴛᴇ ' ' Sᴘᴀᴄᴇ)\n\n/cancel - Tᴏ Cᴀɴᴄᴇʟ Lᴏɢɪɴ Pʀᴏᴄᴇss**")
         ask_otp = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
-        if await cancelled(ask_otp):
+        if await cancelled(msg, ask_otp):
            return
     except TimeoutError:
-        await msg.edit("» ᴛɪᴍᴇ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇᴅ ᴏғ 5 ᴍɪɴᴜᴛᴇs.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ Login ᴀɢᴀɪɴ.")
+        await msg.edit(tout_msg)
         return
     phone_code = ask_otp.text.replace(" ", "")
-    ask_otp.delete()
+    await ask_otp.delete()
     try:
         await client.sign_in(phone_number, code.phone_code_hash, phone_code)
     except PhoneCodeInvalid:
-        await msg.edit("» ᴛʜᴇ ᴏᴛᴩ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs **ᴡʀᴏɴɢ.**\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
+        await msg.edit("**» Yᴏᴜ Sᴇɴᴛ ||Wʀᴏɴɢ OTP||. \n\nTʀʏ /login Aɢᴀɪɴ**")
         return
     except PhoneCodeExpired:
-        await msg.edit("» ᴛʜᴇ ᴏᴛᴩ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs **ᴇxᴩɪʀᴇᴅ.**\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
+        await msg.edit("**» Yᴏᴜʀ Aʀᴇ Lᴀᴛᴇ, ||OTP Exᴘɪʀᴇᴅ||.\n\nTʀʏ /login Aɢᴀɪɴ**")
         return
     except SessionPasswordNeeded:
         try:
-            await msg.edit("» ᴩʟᴇᴀsᴇ ᴇɴᴛᴇʀ ʏᴏᴜʀ **ᴛᴡᴏ sᴛᴇᴩ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ** ᴩᴀssᴡᴏʀᴅ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.")
+            await msg.edit("**» Tᴡᴏ Sᴛᴇᴘ Vᴇʀɪғɪᴄᴀᴛɪᴏɴ Eɴᴀʙʟᴇᴅ Iɴ Yᴏᴜʀ Aᴄᴄᴏᴜɴᴛ, Eɴᴛᴇʀ Yᴏᴜʀ ||𝟸FA Pᴀssᴡᴏʀᴅ 🔑|| To Cᴏɴᴛɪɴᴜᴇ...**")
             ask_2fa = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
         except ListenerTimeout:
-            await msg.edit("» ᴛɪᴍᴇ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇᴅ ᴏғ 5 ᴍɪɴᴜᴛᴇs.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.")
+            await msg.edit(tout_msg)
             return
         try:
             password = ask_2fa.text
             await client.check_password(password=password)
-            if await cancelled(ask_2fa):
+            if await cancelled(msg, ask_2fa):
                return
         except PasswordHashInvalid:
-            await msg.edit("» ᴛʜᴇ ᴩᴀssᴡᴏʀᴅ ʏᴏᴜ'ᴠᴇ sᴇɴᴛ ɪs ᴡʀᴏɴɢ.\n\nᴩʟᴇᴀsᴇ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", quote=True, reply_markup=InlineKeyboardMarkup(gen_button))
+            await msg.edit("**» Wʀᴏɴɢ ||𝟸FA Pᴀssᴡᴏʀᴅ 🔑.||\n\nCʜᴇᴄᴋ Yᴏᴜʀ Pᴀssᴡᴏʀᴅ Aɴᴅ /login Aɢᴀɪɴ...** ")
             return
     await client.sign_in_bot(phone_number)
     string_session = await client.export_session_string()
     await db.set_session(uid, string_session)
     await client.disconnect()
-    await m.reply("✅ Login successful!")
-    text = f"**Tʜɪs Is Yᴏᴜʀ Pyrogram Sᴇssɪᴏɴ Sᴛʀɪɴɢ** \n\n`{string_session}` \n\n**ɴᴏᴛᴇ ⚠️:** ᴅᴏɴ'ᴛ sʜᴀʀᴇ ᴛʜɪs ᴡɪᴛʜ ᴀɴʏᴏɴᴇ** "
+    await m.reply("Sᴜᴄᴄᴇғᴜʟʟʏ Lᴏɢɢᴇᴅ Iɴ ✅...")
+    text = f"**Tʜɪs Is Yᴏᴜʀ Pʏʀᴏɢʀᴀᴍ Sᴇssɪᴏɴ Sᴛʀɪɴɢ** \n\n||{string_session}|| \n\n**ɴᴏᴛᴇ ⚠️:** ᴅᴏɴ'ᴛ sʜᴀʀᴇ ᴛʜɪs ᴡɪᴛʜ ᴀɴʏᴏɴᴇ** "
     await c.send_message(msg.from_user.id, text)
  except:
     logger.error('login', exc_info=True)
     
-async def cancelled(msg):
-    if "/cancel" in msg.text:
-        await msg.reply("**» ᴄᴀɴᴄᴇʟʟᴇᴅ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛɪᴏɴ ᴩʀᴏᴄᴇss !**", quote=True)
+async def cancelled(msg, m):
+    cnc_msg = "**Sᴜᴄᴄᴇғᴜʟʟʏ Cᴀɴᴄᴇʟʟᴇᴅ Tʜᴇ Lᴏɢɪɴ Pʀᴏᴄᴇss. \n\nBᴛᴡ Yᴏᴜ Cᴀɴ /login Aɢᴀɪɴ...**"
+    if "/cancel" in m.text:
+        await msg.edit(cnc_msg)
+        await m.delete()
         return True
-    elif msg.text.startswith("/"):  # Bot Commands
-        await msg.reply("**» ᴄᴀɴᴄᴇʟʟᴇᴅ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛɪᴏɴ ᴩʀᴏᴄᴇss !**", quote=True)
+    elif m.text.startswith("/"):  # Bot Commands
+        await msg.edit(cnc_msg)
+        await m.delete()
         return True
     else:
         return False
