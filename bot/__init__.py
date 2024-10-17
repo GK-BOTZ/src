@@ -5,6 +5,8 @@ from pyromod import listen
 from pyrogram import Client, utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN, DEFAULT_SESSION
 from telethon.sync import TelegramClient
+import pyromod
+
 
 pyroutils.MIN_CHAT_ID = -999999999999
 pyroutils.MIN_CHANNEL_ID = -100999999999999
