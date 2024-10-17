@@ -79,7 +79,7 @@ async def generate_session(c, m):
         await msg.edit(f"**» Gᴏᴛ Aɴ Eʀʀᴏʀ ->** {str(er)}")
         return
     try:
-        await msg.edit("**» Eɴᴛᴇʀ Tʜᴇ OTP Yᴏᴜʀ Rᴇᴄᴇɪᴠᴇᴅ Fʀᴏᴍ [Tᴇʟᴇɢʀᴀᴍ](ᴛ.ᴍᴇ/+𝟺𝟸𝟽𝟽𝟽).\n\nFᴏʀᴍᴀᴛ:- Iғ OTP Is 𝟷𝟸𝟹𝟺𝟻, Eɴᴛᴇʀ As 𝟷 𝟸 𝟹 𝟺 𝟻 (Wɪᴛʜ Oɴᴇ Wʜɪᴛᴇ ' ' Sᴘᴀᴄᴇ)\n\n/cancel - Tᴏ Cᴀɴᴄᴇʟ Lᴏɢɪɴ Pʀᴏᴄᴇss**")
+        await msg.edit("**» Eɴᴛᴇʀ Tʜᴇ OTP Yᴏᴜʀ Rᴇᴄᴇɪᴠᴇᴅ Fʀᴏᴍ [Tᴇʟᴇɢʀᴀᴍ](t.me/+42777).\n\nFᴏʀᴍᴀᴛ:- Iғ OTP Is 𝟷𝟸𝟹𝟺𝟻, Eɴᴛᴇʀ As 𝟷 𝟸 𝟹 𝟺 𝟻 (Wɪᴛʜ Oɴᴇ Wʜɪᴛᴇ ' ' Sᴘᴀᴄᴇ)\n\n/cancel - Tᴏ Cᴀɴᴄᴇʟ Lᴏɢɪɴ Pʀᴏᴄᴇss**")
         ask_otp = await c.listen(chat_id=cid, user_id=uid, filters=filters.text, timeout=300)
         if await cancelled(msg, ask_otp):
            return
